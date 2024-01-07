@@ -25,3 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+
+
+
+html {
+  font-size: 1px !important;
+  color: #fff !important;
+}
