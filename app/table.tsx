@@ -20,9 +20,8 @@ import {
       <Table>
         <TableHead>
           <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Username</TableHeaderCell>
-            <TableHeaderCell>Email</TableHeaderCell>
+            <TableHeaderCell>Input Fields</TableHeaderCell>
+            <TableHeaderCell>Input</TableHeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -31,9 +30,6 @@ import {
               <TableCell>{surgeon.name}</TableCell>
               <TableCell>
                 <Text>{surgeon.username}</Text>
-              </TableCell>
-              <TableCell>
-                <Text>{surgeon.email}</Text>
               </TableCell>
             </TableRow>
           ))}
