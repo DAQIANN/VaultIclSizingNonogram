@@ -11,8 +11,8 @@ import {
   interface Surgeon {
     id: number;
     name: string;
-    username: string;
     email: string;
+    patient: string;
   }
   
   export default function SurgeonTable({ surgeons }: { surgeons: Surgeon[] }) {
@@ -29,7 +29,7 @@ import {
             <TableRow key={surgeon.id}>
               <TableCell>{surgeon.name}</TableCell>
               <TableCell>
-                <Text>{surgeon.username}</Text>
+                <Text>{surgeon.patient}</Text>
               </TableCell>
             </TableRow>
           ))}

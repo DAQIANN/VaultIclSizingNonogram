@@ -1,10 +1,37 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Card, Title, Text } from '@tremor/react';
+import SurgeonTable from './table';
+import { useState } from "react";
+
+interface Surgeon {
+  id: number;
+  name: string;
+  email: string;
+  patient: string;
+}
 
 export default function Home() {
+  // useState for Surgeon info
+  // useState for images
+  // useState for final results
+  const [surgeonInfo, setSurgeonInfo] = useState([]);
+  let testSurgeons = [
+    {
+      id:1,
+      name:"test",
+      email:"test@gmail.com",
+      patient:"anothertest"
+    }
+  ]
+  const inputSurgeons = testSurgeons as Surgeon[];
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+      <Card>
+        <SurgeonTable surgeons={inputSurgeons} />
+      </Card>
+      {/* <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
           <Link href="/api/python">
@@ -43,7 +70,7 @@ export default function Home() {
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
-        {/* <a
+        <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
           target="_blank"
@@ -109,8 +136,8 @@ export default function Home() {
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
-        </a> */}
-      </div>
+        </a>
+      </div> */}
     </main>
   )
 }
