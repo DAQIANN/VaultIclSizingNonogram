@@ -1,10 +1,42 @@
+"use client";
+
 import Image from 'next/image'
 import Link from 'next/link'
+import SurgeonTable from "./table"
+import { Card, Title, Text } from '@tremor/react';
+// import {Input} from "@nextui-org/react";
+import VaultLogo from "../images/VaultImage.png"
+
+interface Surgeon {
+  id:number,
+  name:string,
+  patient:string,
+  email:string,
+}
 
 export default function Home() {
+  let testSurgeons = [
+    {
+      id:1,
+      name:"test",
+      email:"test@gmail.com",
+      patient:"anothertest"
+    }
+  ]
+  const inputSurgeons = testSurgeons as Surgeon[];
+
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <div className="z-10 w-full items-center font-mono text-sm lg:flex">
+        <Title>Welcome to Eyelab AI's ICL Sizing Nonogram Service</Title>
+      </div>
+      <div className="z-10 w-full items-center font-mono text-sm lg:flex">
+        <Card>
+          <SurgeonTable surgeons={inputSurgeons} />
+        </Card>
+      </div>
+      {/* <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
         <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Get started by editing&nbsp;
           <Link href="/api/python">
@@ -110,7 +142,7 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
+      </div> */}
     </main>
   )
 }
