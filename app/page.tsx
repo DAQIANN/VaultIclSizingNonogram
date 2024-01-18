@@ -13,7 +13,6 @@ import { Card, Title, Text, Table,
 } from '@tremor/react';
 import { Menu, Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import {Input} from "@nextui-org/react";
 import VaultLogo from "../images/VaultImage.png";
 import { Fragment, useState } from 'react';
 
