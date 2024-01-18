@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 @app.route("/api/python")
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route("/api/form", methods=['POST'])
-def form(test):
-    print(test)
+@app.route("/api/form", methods=['GET', 'POST'])
+def form():
+    if request.method == "GET":
+        return "<p>Hello, World!</p>"
+    return "<p>Posting</p>"
