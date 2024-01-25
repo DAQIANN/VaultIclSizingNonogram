@@ -58,7 +58,8 @@ export default function Home() {
     const [ethnicitiesInput, setEthnicitiesInput] = useState(ethnicities[0])
     const [rightEyeImage, setRightEyeImage] = useState("");
 
-    const url = "https://eyelabapi-guiea4z3.b4a.run/upload";
+    // const url = "https://eyelabapi-guiea4z3.b4a.run/upload";
+    const url = "http://localhost:5001/upload"
     return (
         <main className="flex min-h-screen flex-col items-center p-24">
             <div className="z-10 w-full items-center justify-center font-mono text-sm lg:flex">
@@ -224,6 +225,20 @@ export default function Home() {
                     <Flex alignItems="center" justifyContent="between">
                         <Text className="text-base items-center justify-center text-gray-700 font-medium">Required Inputs</Text>
                     </Flex>
+                    <Container>
+                        <h1 className="text-2xl font-bold">File Uploader</h1>
+                        <FileUploader
+                            url={url}
+                            acceptedFileTypes={[
+                                "image/png",
+                                "image/jpeg",
+                            ]}
+                            allowMultiple={true}
+                            maxFileSize={100}
+                            label="Max File Size: 100MB (multiple)"
+                            labelAlt="Accepted File Types: png, jpeg"
+                        />
+                    </Container>
                 </Card>
                 <div className="pt-20 pr-5"> </div>
                 <div className="pl-5"> </div>
