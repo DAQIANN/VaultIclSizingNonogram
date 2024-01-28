@@ -232,7 +232,7 @@ export default function Home() {
             <div className="z-10 w-full items-center font-mono text-sm lg:flex pt-5" style={{ zIndex: 1 }}>
                 <Card>
                     <Flex className="items-center justify-center" alignItems="center" justifyContent="between">
-                        <h1 class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-green-900 md:text-3xl lg:text-3xl">RIGHT EYE</h1>
+                        <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-green-900 md:text-3xl lg:text-3xl">RIGHT EYE</h1>
                     </Flex>
                     <Flex alignItems="center" justifyContent="between">
                         <Text className="text-base items-center justify-center text-gray-700 font-medium">Please Select a Methodology and Input Images (Required)</Text>
@@ -289,7 +289,7 @@ export default function Home() {
                     </div>
                     <div className="lg:flex pt-5 justify-center relative">
                         <Container>
-                            <h1 className="text-2xl font-bold">File Uploader</h1>
+                            <h1 className="text-2xl font-bold">Upload Images</h1>
                             <FileUploader
                                 url={url}
                                 acceptedFileTypes={[
@@ -308,7 +308,7 @@ export default function Home() {
                 <div className="pl-5"> </div>
                 <Card>
                     <Flex className="items-center justify-center" alignItems="center" justifyContent="between">
-                        <h1 class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-blue-900 md:text-3xl lg:text-3xl">LEFT EYE</h1>
+                        <h1 className="mb-4 text-3xl font-extrabold leading-none tracking-tight text-blue-900 md:text-3xl lg:text-3xl">LEFT EYE</h1>
                     </Flex>
                     <Flex alignItems="center" justifyContent="between">
                         <Text className="text-base items-center justify-center text-gray-700 font-medium">Please Select a Methodology and Input Images (Required)</Text>
@@ -365,7 +365,7 @@ export default function Home() {
                     </div>
                     <div className="lg:flex pt-5 justify-center relative">
                         <Container>
-                            <h1 className="text-2xl font-bold">File Uploader</h1>
+                            <h1 className="text-2xl font-bold">Upload Images</h1>
                             <FileUploader
                                 url={url}
                                 acceptedFileTypes={[
