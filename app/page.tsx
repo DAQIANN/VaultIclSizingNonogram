@@ -10,7 +10,7 @@ import {
     TableHeaderCell,
     TableBody,
     TableCell,
-    Flex
+    Flex,
 } from '@tremor/react';
 import { Menu, Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
@@ -44,6 +44,11 @@ const ethnicities = [
     { value: 'White' }
 ]
 
+const methodology = [
+    { value: 'AS-OCT' },
+    { value: 'UBM' }
+]
+
 const Container = ({ children }: ContainerProps) => (
     <div className="flex flex-col items-center justify-between gap-4 min-h-60 bg-gray-200 w-full max-w-2xl py-10 px-4 rounded-xl h-fit">
         {children}
@@ -51,12 +56,16 @@ const Container = ({ children }: ContainerProps) => (
 )
 
 export default function Home() {
-    const [surgeonNameInput, setSurgeonNameInput] = useState("")
-    const [patientNameInput, setPatientNameInput] = useState("")
-    const [dateOfBirthInput, setDateOfBirthInput] = useState("")
-    const [sexInput, setSexInput] = useState(sexes[0])
-    const [ethnicitiesInput, setEthnicitiesInput] = useState(ethnicities[0])
+    const [surgeonNameInput, setSurgeonNameInput] = useState("");
+    const [patientNameInput, setPatientNameInput] = useState("");
+    const [dateOfBirthInput, setDateOfBirthInput] = useState("");
+    const [sexInput, setSexInput] = useState(sexes[0]);
+    const [ethnicitiesInput, setEthnicitiesInput] = useState(ethnicities[0]);
     const [rightEyeImage, setRightEyeImage] = useState("");
+    const [leftEyeImage, setLeftEyeImage] = useState("");
+    const [rightEyeMethod, setRightEyeMethod] = useState(methodology[0]);
+    const [leftEyeMethod, setLeftEyeMethod] = useState(methodology[0]);
+    const [position, setPosition] = useState("");
 
     // const url = "https://eyelabapi-guiea4z3.b4a.run/upload";
     const url = "http://localhost:5001/upload"
@@ -222,44 +231,154 @@ export default function Home() {
             </div>
             <div className="z-10 w-full items-center font-mono text-sm lg:flex pt-5" style={{ zIndex: 1 }}>
                 <Card>
-                    <Flex alignItems="center" justifyContent="between">
-                        <Text className="text-base items-center justify-center text-gray-700 font-medium">Required Inputs</Text>
+                    <Flex className="items-center justify-center" alignItems="center" justifyContent="between">
+                        <h1 class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-green-900 md:text-3xl lg:text-3xl">RIGHT EYE</h1>
                     </Flex>
-                    <Container>
-                        <h1 className="text-2xl font-bold">File Uploader</h1>
-                        <FileUploader
-                            url={url}
-                            acceptedFileTypes={[
-                                "image/png",
-                                "image/jpeg",
-                            ]}
-                            allowMultiple={true}
-                            maxFileSize={100}
-                            label="Max File Size: 100MB (multiple)"
-                            labelAlt="Accepted File Types: png, jpeg"
-                        />
-                    </Container>
+                    <Flex alignItems="center" justifyContent="between">
+                        <Text className="text-base items-center justify-center text-gray-700 font-medium">Please Select a Methodology and Input Images (Required)</Text>
+                    </Flex>
+                    <div className="lg:flex pt-5 justify-center relative">
+                        <Listbox value={rightEyeMethod} onChange={setRightEyeMethod}>
+                            <div className="relative mt-1">
+                                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                                    <span className="block truncate">{rightEyeMethod.value}</span>
+                                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <ChevronUpDownIcon
+                                            className="h-5 w-5 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    </span>
+                                </Listbox.Button>
+                                <Transition
+                                    as={Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                >
+                                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" style={{ zIndex: 2 }}>
+                                        {methodology.map((method, methodIdx) => (
+                                            <Listbox.Option
+                                                key={methodIdx}
+                                                className={({ active }) =>
+                                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                                                    }`
+                                                }
+                                                value={method}
+                                            >
+                                                {({ selected }) => (
+                                                    <>
+                                                        <span
+                                                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                                                }`}
+                                                        >
+                                                            {method.value}
+                                                        </span>
+                                                        {selected ? (
+                                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                            </span>
+                                                        ) : null}
+                                                    </>
+                                                )}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </Transition>
+                            </div>
+                        </Listbox>
+                    </div>
+                    <div className="lg:flex pt-5 justify-center relative">
+                        <Container>
+                            <h1 className="text-2xl font-bold">File Uploader</h1>
+                            <FileUploader
+                                url={url}
+                                acceptedFileTypes={[
+                                    "image/png",
+                                    "image/jpeg",
+                                ]}
+                                allowMultiple={true}
+                                maxFileSize={100}
+                                label="Max File Size: 100MB (multiple)"
+                                labelAlt="Accepted File Types: png, jpeg"
+                            />
+                        </Container>
+                    </div>
                 </Card>
                 <div className="pt-20 pr-5"> </div>
                 <div className="pl-5"> </div>
                 <Card>
-                    <Flex alignItems="center" justifyContent="between">
-                        <Text className="text-base items-center justify-center text-gray-700 font-medium">Required Inputs</Text>
+                    <Flex className="items-center justify-center" alignItems="center" justifyContent="between">
+                        <h1 class="mb-4 text-3xl font-extrabold leading-none tracking-tight text-blue-900 md:text-3xl lg:text-3xl">LEFT EYE</h1>
                     </Flex>
-                    <Container>
-                        <h1 className="text-2xl font-bold">File Uploader</h1>
-                        <FileUploader
-                            url={url}
-                            acceptedFileTypes={[
-                                "image/png",
-                                "image/jpeg",
-                            ]}
-                            allowMultiple={true}
-                            maxFileSize={100}
-                            label="Max File Size: 100MB (multiple)"
-                            labelAlt="Accepted File Types: png, jpeg"
-                        />
-                    </Container>
+                    <Flex alignItems="center" justifyContent="between">
+                        <Text className="text-base items-center justify-center text-gray-700 font-medium">Please Select a Methodology and Input Images (Required)</Text>
+                    </Flex>
+                    <div className="lg:flex pt-5 justify-center relative">
+                        <Listbox value={leftEyeMethod} onChange={setLeftEyeMethod}>
+                            <div className="relative mt-1">
+                                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                                    <span className="block truncate">{leftEyeMethod.value}</span>
+                                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <ChevronUpDownIcon
+                                            className="h-5 w-5 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                    </span>
+                                </Listbox.Button>
+                                <Transition
+                                    as={Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                >
+                                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm" style={{ zIndex: 2 }}>
+                                        {methodology.map((method, methodIdx) => (
+                                            <Listbox.Option
+                                                key={methodIdx}
+                                                className={({ active }) =>
+                                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                                                    }`
+                                                }
+                                                value={method}
+                                            >
+                                                {({ selected }) => (
+                                                    <>
+                                                        <span
+                                                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                                                }`}
+                                                        >
+                                                            {method.value}
+                                                        </span>
+                                                        {selected ? (
+                                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                            </span>
+                                                        ) : null}
+                                                    </>
+                                                )}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </Transition>
+                            </div>
+                        </Listbox>
+                    </div>
+                    <div className="lg:flex pt-5 justify-center relative">
+                        <Container>
+                            <h1 className="text-2xl font-bold">File Uploader</h1>
+                            <FileUploader
+                                url={url}
+                                acceptedFileTypes={[
+                                    "image/png",
+                                    "image/jpeg",
+                                ]}
+                                allowMultiple={true}
+                                maxFileSize={100}
+                                label="Max File Size: 100MB (multiple)"
+                                labelAlt="Accepted File Types: png, jpeg"
+                            />
+                        </Container>
+                    </div>
                 </Card>
             </div>
         </main>

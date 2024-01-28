@@ -7,7 +7,7 @@ import VaultLogo from "../images/VaultImage.png"
 
 export default function Header() {
     return (
-        <div className="z-10 w-full items-center font-mono text-sm lg:flex pl-5 pt-5" style={{backgroundColor: '#ffffff',borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }}>
+        <div className="z-10 w-full items-center font-mono text-sm lg:flex pl-5 pt-5" style={{backgroundColor: '#ffffff',borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px' }}>
             <div className="relative pb-10">
                 <Image
                     className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"

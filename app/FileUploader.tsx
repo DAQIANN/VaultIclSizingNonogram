@@ -118,7 +118,9 @@ export default function FileUploader(props: FileUploaderProps) {
                     <div className="form-control w-full">
                         <label className="label">
                             <span className="label-text">{label}</span>
-                            <span className="label-text-alt">{labelAlt}</span>
+                            <div>
+                                <span className="label-text-alt">{labelAlt}</span>
+                            </div>
                         </label>
                         <input
                             type="file"
