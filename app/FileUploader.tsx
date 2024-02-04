@@ -9,6 +9,7 @@ interface FileUploaderProps {
     allowMultiple?: boolean;
     label?: string;
     labelAlt?: string;
+    onResponse?: (responseData: any) => void;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
@@ -17,7 +18,8 @@ export default function FileUploader(props: FileUploaderProps) {
         url, maxFileSize = 5,
         allowMultiple = true,
         label = "",
-        labelAlt = ""
+        labelAlt = "",
+        onResponse
     } = props
 
     const MAX_FILE_BYTES = maxFileSize * 1024 * 1024;
@@ -61,40 +63,56 @@ export default function FileUploader(props: FileUploaderProps) {
             if (!isValid) {
                 setFileStatus(fileErrors);
             } else {
-                files.forEach(file => {
-                    setFileProgress(prev => ({ ...prev, [file.name]: 0 }));
-                    fileUploadHandler(file);
-                });
+                // files.forEach(file => {
+                //     setFileProgress(prev => ({ ...prev, [file.name]: 0 }));
+                //     fileUploadHandler(file);
+                // });
+                setFileProgress({});
+                fileUploadHandler(files);
             }
         }
     };
 
-    const fileUploadHandler = (file: File) => {
+    const fileUploadHandler = (files: File[]) => {
         const formData = new FormData();
-        formData.append("uploads", file);
-
+        files.forEach((file, index) => {
+            formData.append('uploads[' + index.toString() + ']', file);
+        });
         const xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
+        xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
 
         xhr.upload.addEventListener("progress", event => {
             if (event.lengthComputable) {
-                const progress = Math.round((event.loaded / event.total) * 100);
-                setFileProgress(prev => ({ ...prev, [file.name]: progress }));
+                files.forEach(file => {
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    setFileProgress(prev => ({ ...prev, [file.name]: progress }));
+                });
             }
         });
 
         xhr.addEventListener("readystatechange", () => {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
-                    setFileStatus(prev => ({ ...prev, [file.name]: 'Uploaded' }));
+                    const responseData = JSON.parse(xhr.responseText);
+                    files.forEach(file => {
+                        setFileStatus(prev => ({ ...prev, [file.name]: 'Uploaded' }));
+                    });
                     setUploadSuccess(true);
+                    if (onResponse) {
+                        onResponse(responseData);
+                    }
                 } else {
-                    setFileStatus(prev => ({ ...prev, [file.name]: "An error occurred while uploading the file. Server response: " + xhr.statusText }));
+                    files.forEach(file => {
+                        setFileStatus(prev => ({ ...prev, [file.name]: "An error occurred while uploading the file. Server response: " + xhr.statusText }));
+                    });
                 }
             }
         });
 
         xhr.send(formData);
+        console.log(formData);
+        console.log(files);
     };
 
     return (

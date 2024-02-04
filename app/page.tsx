@@ -18,6 +18,8 @@ import VaultLogo from "../images/VaultImage.png";
 import { Fragment, useState } from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa'
 import FileUploader from './FileUploader'
+import Results from './results'
+import { urlToHttpOptions } from 'url';
 
 interface Surgeon {
     id: number,
@@ -66,9 +68,39 @@ export default function Home() {
     const [rightEyeMethod, setRightEyeMethod] = useState(methodology[0]);
     const [leftEyeMethod, setLeftEyeMethod] = useState(methodology[0]);
     const [position, setPosition] = useState("");
+    const [results, setResults] = useState(<Text></Text>);
 
+    const getResults = () => {
+        if (rightEyeImage == "" && leftEyeImage == "") {
+            setResults(<Text>Please submit images!</Text>)
+        } else {
+            setResults(<Text>This is the result!</Text>);
+        }
+    };
+
+    const fileUploadHandler = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); // Prevent default form submission behavior
+
+        const formData = new FormData();
+        console.log(event);
+        // formData.append('file', event.target.file.files[0]); // Get the selected file from the input element
+
+        fetch(url, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors',
+        }).then((response) => {
+            // Handle response
+        }).catch((error) => {
+            throw new Error('An error occurred while uploading the file. Server response: ${response.statusText}');
+        });
+    };
+
+    const handleResponse = (responseData: JSON) => {
+        console.log("Respoinse from server:", responseData);
+    }
     // const url = "https://eyelabapi-guiea4z3.b4a.run/upload";
-    const url = "http://localhost:5001/upload"
+    const url = "http://localhost:5001/"
     return (
         <main className="flex min-h-screen flex-col items-center p-24">
             <div className="z-10 w-full items-center justify-center font-mono text-sm lg:flex">
@@ -291,7 +323,7 @@ export default function Home() {
                         <Container>
                             <h1 className="text-2xl font-bold">Upload Images</h1>
                             <FileUploader
-                                url={url}
+                                url={url + 'right_upload'}
                                 acceptedFileTypes={[
                                     "image/png",
                                     "image/jpeg",
@@ -300,6 +332,7 @@ export default function Home() {
                                 maxFileSize={100}
                                 label="Max File Size: 100MB (multiple)"
                                 labelAlt="Accepted File Types: png, jpeg"
+                                onResponse={handleResponse}
                             />
                         </Container>
                     </div>
@@ -367,7 +400,7 @@ export default function Home() {
                         <Container>
                             <h1 className="text-2xl font-bold">Upload Images</h1>
                             <FileUploader
-                                url={url}
+                                url={url + 'left_eye'}
                                 acceptedFileTypes={[
                                     "image/png",
                                     "image/jpeg",
@@ -376,10 +409,20 @@ export default function Home() {
                                 maxFileSize={100}
                                 label="Max File Size: 100MB (multiple)"
                                 labelAlt="Accepted File Types: png, jpeg"
+                                onResponse={handleResponse}
                             />
                         </Container>
                     </div>
                 </Card>
+            </div>
+            <div className="pt-10"></div>
+            <div>
+                <button style={{ backgroundColor: 'red', color: 'white', padding: '10px 20px', borderRadius: '5px' }} onClick={getResults}>
+                    Results
+                </button>
+            </div>
+            <div>
+                {results}
             </div>
         </main>
     )
